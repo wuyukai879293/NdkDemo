@@ -66,15 +66,6 @@ public class MainActivity extends AppCompatActivity  {
     private modeUSER mUSER = modeUSER.GENERAL;
     private int msgFromSlave = 0;
 
-//    private int mode = 1001;
-//    private final int COMMON = 1001;
-//    private final int PICTURE = 1002;
-//    private final int PPT =1003;
-
-//    private static final UUID MY_UUID = UUID
-//            .fromString("00001101-0000-1000-8000-00805F9B34FB");
-//private static final UUID MY_UUID = UUID
-//        .fromString("A107061B-B313-47EF-AE36-FB1FB2091D07");
     // Intent需要 编码
     public static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
@@ -136,7 +127,7 @@ public class MainActivity extends AppCompatActivity  {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         accelerometerSensor = new AccelerometerSensor((SensorManager)getSystemService(Context.SENSOR_SERVICE),mHandler,mems);
-        accelerometerSensor.setRunInMainAc();
+//        accelerometerSensor.setRunInMainAc();
         //默认启动时加载用户1的数据
 //        accelerometerSensor.genTempTool(context,1);
         startAc = (Button)findViewById(R.id.startAc);
@@ -377,17 +368,6 @@ public void onStart() {
                     str = str+"---------->"+getType();
                     output.setText(str);
                     sendToPC = mSwitch(getType());
-//                    switch (i){
-//                        case 5:
-//                            sendToPC = "13";
-//                            break;
-//                        case 6:
-//                            sendToPC = "14";
-//                            break;
-//                        default:
-//                            sendToPC = "no data";
-//                            break;
-//                    }
                     masterStop = true;
                     if (mSC == modeSC.CLIENT){
                         sendData(sendToPC);// 双手模式下为发送到主机
@@ -529,7 +509,7 @@ public void onStart() {
                     setupChat();
                     //sendSensorData();
                     accelerometerSensor.setRunInMainAc();
-                    //accelerometerSensor.genTempTool(context,1);
+//                    accelerometerSensor.genTempTool(context,1);
 //                    accelerometerSensor.sensorOn();
 
                 } else {
@@ -574,15 +554,11 @@ public void onStart() {
         }
     }
 
-//    @Override
-//    public void onStop(){
-//        super.onStop();
-//
-//        if (mSensorManager != null) {
-//            mSensorManager.unregisterListener(this);
-//            mSensorManager = null;
-//        }
-//    }
+    @Override
+    public void onStop(){
+        super.onStop();
+        accelerometerSensor.sensorOff();
+    }
 
     private enum modeSC{
         CLIENT,
@@ -598,171 +574,7 @@ public void onStart() {
         PPT
     }
 
-//    public void sendSensorData(){
-//
-//        SensorEventListener lsn = new SensorEventListener() {
-//            @Override
-//            public void onSensorChanged(SensorEvent event) {
-//                if (event.sensor == null)
-//                    return;
-//
-//
-//                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-//                    x = -event.values[0]/10;
-//                    y = -event.values[1]/10;
-//                    z = -event.values[2]/10;
-//                    textViewX.setText(String.valueOf(x));
-//                    mems.MEMS_Data(x, z);
-//                    textViewY.setText(String.valueOf(y));
-//                    if (mems.isDateFinished()) {
-//                        textViewZ.setText(String.valueOf(z));
-//                        type = Recognition(mems);
-//                        switch (type){
-//                            case 1:
-//                                output.setText("向右甩动");
-//                                switch (mode){
-//                                    case COMMON:
-//                                        str = "04";
-//                                        break;
-//                                    case PICTURE:
-//                                        str = "22";
-//                                        break;
-//                                    case PPT:
-//                                        str = "12";
-//                                        break;
-//                                }
-//                                break;
-//                            case 2:
-//                                output.setText("向左甩动");
-//                                switch (mode){
-//                                    case COMMON:
-//                                        str = "03";
-//                                        break;
-//                                    case PICTURE:
-//                                        str = "21";
-//                                        break;
-//                                    case PPT:
-//                                        str = "11";
-//                                        break;
-//                                }
-//                                break;
-//                            case 3:
-//                                output.setText("向上甩动");
-//                                switch (mode){
-//                                    case COMMON:
-//                                        str = "01";
-//                                        break;
-//                                    case PICTURE:
-//                                        str = "00";
-//                                        break;
-//                                    case PPT:
-//                                        str = "00";
-//                                        break;
-//                                }
-//                                break;
-//                            case 4:
-//                                output.setText("向下甩动");
-//                                switch (mode){
-//                                    case COMMON:
-//                                        str = "02";
-//                                        break;
-//                                    case PICTURE:
-//                                        str = "00";
-//                                        break;
-//                                    case PPT:
-//                                        str = "00";
-//                                        break;
-//                                }
-//                                break;
-//                            case 5:
-//                                output.setText("顺时针画圈");
-//                                switch (mode){
-//                                    case COMMON:
-//                                        str = "00";
-//                                        break;
-//                                    case PICTURE:
-//                                        str = "25";
-//                                        break;
-//                                    case PPT:
-//                                        str = "14";
-//                                        break;
-//                                }
-//                                break;
-//                            case 6:
-//                                output.setText("逆时针画圈");
-//                                switch (mode){
-//                                    case COMMON:
-//                                        str = "00";
-//                                        break;
-//                                    case PICTURE:
-//                                        str = "00";
-//                                        break;
-//                                    case PPT:
-//                                        str = "13";
-//                                        break;
-//                                }
-//                                break;
-//                            case 7:
-//                                output.setText("逆时针画矩形");
-//                                str = "00";
-//                                break;
-//                            case 8:
-//                                output.setText("顺时针画矩形");
-//                                str = "00";
-//                                break;
-//                            default:
-//                                str = "00";
-//                                break;
-//
-//                        }
-//                        masterStop = true;
-////                        displayButton.setText(type + "");
-//                        //setupChat();
-//                        if(mSC == modeSC.CLIENT){
-//                            //str = getType() + "";
-//                            sendData(str);
-//                        } else{
-//
-//                            if(dataArrive){
-//                                sendData(getType() + "+" + msgFromSlave);
-//                                msgFromSlave = 0;
-//                                dataArrive = false;
-//                                masterStop = false;
-//                            }
-////                            str = type + "";
-//                           //type = type  + msgFromSlave;
-//                            //str = type + "";
-//
-//                           // sendMessage(getType() + "+" + msgFromSlave);
-//                           // msgFromSlave = 0;
-//                        }
-//
-//                        mems.Reg_Init();
-//                        mems.Reg_Groud_Init();
-//
-//                        //str = "x:" + x + "   " + "y:" + y + "    " + "z:" + z + "    ";
-//                        //str =  x + " "  + y + " " +  z + "\n";
-//                        //str = type + "";
-//                        //msgBuffer = str.getBytes();
-//                        //sendMessage(str);
-//                        //mChatService.write(msgBuffer);
-//                        isStart = false;
-//                        isStop = false;
-//                    }
-//
-//                }
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-//
-//            }
-//        };
-//        mSensorManager.registerListener(lsn,mSensor,SensorManager.SENSOR_DELAY_GAME);
-//    }
+
     public int getType(){
          return type;
      }

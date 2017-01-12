@@ -122,7 +122,7 @@ public class UserListActivity extends AppCompatActivity {
                                 //将Activity中的textview显示AlertDialog中EditText中的内容
                                 //并且用Toast显示一下
                                 // Add new Items to List
-                                Map<String, String> userMap = new HashMap<String, String>();
+                                Map<String, String> userMap = new HashMap<>();
                                 userMap.put("userName", et_name_dialog.getText().toString());
                                 user_list.add(userMap);
 //                                user_list.add(et_name_dialog.getText().toString());

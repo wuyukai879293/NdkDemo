@@ -41,7 +41,6 @@ public class AccelerometerSensor {
     public void setRunInMainAc(){
         sensorOn();
         runInMainAc = true;
-
     }
     public void setRunInGesAc(){
         sensorOn();
@@ -87,7 +86,13 @@ public class AccelerometerSensor {
                             saveAsGesLib();
                             if(isRunInMainAc()){
                                 int i = edtw.edtwProcessPro(getArrayX(),getArrayZ(),mems);
-                                String s = edtw.getUserName(i);
+                                String s;
+                                if(i != 0){
+                                    s = edtw.getGesName(i);
+                                }else {
+
+                                    s = "null";
+                                }
                                 Bundle bundle = new Bundle();
                                 bundle.putInt("ges_id",i);
                                 bundle.putString("ges_name",s);
