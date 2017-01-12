@@ -19,4 +19,8 @@
     <color name="colorBefClick">#C7CEB2</color>
     <color name="colorAftClick">#E0803E</color>
     <color name="colorGrey">#C9CABB</color>
+
+    <color name="gray_line">#3F51B5</color>
+    <color name="bottom_text_color_pressed">#3F51B5</color>
+    <color name="bottom_text_color_normal">#FF4081</color>
 </resources>

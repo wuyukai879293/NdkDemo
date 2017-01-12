@@ -1,6 +1,9 @@
 package com.example.wuyukai.ndkdemo;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -23,19 +26,45 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.wuyukai.ndkdemo.fragment.HealthFragment;
+import com.example.wuyukai.ndkdemo.fragment.HomeFragment;
+import com.example.wuyukai.ndkdemo.fragment.MsgFragment;
+import com.example.wuyukai.ndkdemo.fragment.UsercenterFragment;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Fragment[] fragments;
+    private RelativeLayout layout_home;
+    private RelativeLayout layout_health;
+    private RelativeLayout layout_msg;
+    private RelativeLayout layout_usercenter;
+
+    private ImageView img_home;
+    private ImageView img_health;
+    private ImageView img_msg;
+    private ImageView img_usercenter;
+
+    private TextView tv_home;
+    private TextView tv_health;
+    private TextView tv_msg;
+    private TextView tv_usercenter;
+
+    private int selectColor;
+    private int unSelectColor;
+    private int index;
+    private int currentIndex;
 
     // 调试
 //    private static final String TAG = "BluetoothChat";
@@ -61,9 +90,9 @@ public class MainActivity extends AppCompatActivity  {
     volatile boolean dataArrive = false;
     boolean masterStop = false;
 //    public TypeBluetooth mType = TypeBluetooth.Client;
-    private modeSC mSC = modeSC.CLIENT;
-    private modeSD mSD = modeSD.SINGLE;
-    private modeUSER mUSER = modeUSER.GENERAL;
+    public static modeSC mSC = modeSC.CLIENT;
+    public static modeSD mSD = modeSD.SINGLE;
+    public static modeUSER mUSER = modeUSER.GENERAL;
     private int msgFromSlave = 0;
 
     // Intent需要 编码
@@ -126,6 +155,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+        init();
         accelerometerSensor = new AccelerometerSensor((SensorManager)getSystemService(Context.SENSOR_SERVICE),mHandler,mems);
 //        accelerometerSensor.setRunInMainAc();
         //默认启动时加载用户1的数据
@@ -141,10 +171,6 @@ public class MainActivity extends AppCompatActivity  {
         // 设置文本的标题
         outInfo = (TextView)findViewById(R.id.outInfo);
         output = (TextView)findViewById(R.id.output);
-        textViewInfo = (TextView) findViewById(R.id.textView1);
-        textViewX = (TextView) findViewById(R.id.textView2);
-        textViewY = (TextView) findViewById(R.id.textView3);
-        textViewZ = (TextView) findViewById(R.id.textView4);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
@@ -169,9 +195,7 @@ public class MainActivity extends AppCompatActivity  {
         startAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                accelerometerSensor.sensorOff();
-                Intent intent = new Intent(MainActivity.this,UserListActivity.class);
-                startActivity(intent);
+                startAc.setText(mUSER+"");
             }
         });
         pickUser.setOnClickListener(new View.OnClickListener() {
@@ -180,19 +204,141 @@ public class MainActivity extends AppCompatActivity  {
                 showUserDialog();
             }
         });
-        swithMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mSD = modeSD.DOUBLE;
-                }else {
-                    mSD = modeSD.SINGLE;
-                }
-            }
-        });
+//        swithMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    mSD = modeSD.DOUBLE;
+//                }else {
+//                    mSD = modeSD.SINGLE;
+//                }
+//            }
+//        });
 //        mTextView = (TextView)findViewById(R.id.text);
 //        mTextView.setText(Command.getStringFromC());
     }
+
+    public void init(){
+        initViews();
+        initEvent();
+        initData();
+    }
+
+    public void initViews(){
+        layout_home  = (RelativeLayout) findViewById(R.id.layout_home);
+        layout_health  = (RelativeLayout) findViewById(R.id.layout_health);
+        layout_msg  = (RelativeLayout) findViewById(R.id.layout_msg);
+        layout_usercenter  = (RelativeLayout) findViewById(R.id.layout_usercenter);
+
+        img_home = (ImageView) findViewById(R.id.img_home);
+        img_health = (ImageView) findViewById(R.id.img_health);
+        img_msg = (ImageView) findViewById(R.id.img_msg);
+        img_usercenter = (ImageView) findViewById(R.id.img_usercenter);
+
+        tv_home = (TextView) findViewById(R.id.tv_home);
+        tv_health = (TextView) findViewById(R.id.tv_health);
+        tv_msg = (TextView) findViewById(R.id.tv_msg);
+        tv_usercenter = (TextView) findViewById(R.id.tv_usercenter);
+
+    }
+
+    public void initEvent(){
+        layout_home.setOnClickListener(this);
+        layout_health.setOnClickListener(this);
+        layout_msg.setOnClickListener(this);
+        layout_usercenter.setOnClickListener(this);
+    }
+
+    public void initData(){
+        selectColor = getResources().getColor(R.color.bottom_text_color_pressed);
+        unSelectColor = getResources().getColor(R.color.bottom_text_color_normal);
+        fragments = new Fragment[4];
+        fragments[0] = new HomeFragment();
+        fragments[1] = new HealthFragment();
+        fragments[2] = new MsgFragment();
+        fragments[3] = new UsercenterFragment();
+
+        getFragmentManager().beginTransaction().add(R.id.main_container,fragments[0]).commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.layout_home:
+                index = 0;
+                setTabs(index);
+                break;
+            case R.id.layout_health:
+                index = 1;
+                mSD = modeSD.SINGLE;
+                setTabs(index);
+                break;
+            case R.id.layout_msg:
+                mSD = modeSD.DOUBLE;
+                index = 2;
+                setTabs(index);
+                break;
+            case R.id.layout_usercenter:
+                index = 3;
+                setTabs(index);
+                break;
+        }
+        if (index ==3){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.hide(fragments[currentIndex]);
+            ft.commit();
+            accelerometerSensor.sensorOff();
+            Intent intent = new Intent(MainActivity.this,UserListActivity.class);
+            startActivity(intent);
+        }else if(currentIndex != index){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.hide(fragments[currentIndex]);
+            if(!fragments[index].isAdded()){
+                ft.add(R.id.main_container,fragments[index]);
+            }
+            ft.show(fragments[index]).commit();
+        }
+        currentIndex = index;
+
+    }
+
+    public void setTabs(int pos){
+        resetColor();
+        switch (pos){
+            case 0:
+                img_home.setImageResource(R.mipmap.icon_home_pressed);
+                tv_home.setTextColor(selectColor);
+                break;
+            case 1:
+                img_health.setImageResource(R.mipmap.icon_health_pressed);
+                tv_health.setTextColor(selectColor);
+                break;
+            case 2:
+                img_msg.setImageResource(R.mipmap.icon_msg_pressed);
+                tv_msg.setTextColor(selectColor);
+                break;
+            case 3:
+                img_usercenter.setImageResource(R.mipmap.icon_usercenter_pressed);
+                tv_usercenter.setTextColor(selectColor);
+                break;
+        }
+
+    }
+
+    public void resetColor(){
+        img_home.setImageResource(R.mipmap.icon_home_normal);
+        img_health.setImageResource(R.mipmap.icon_health_normal);
+        img_msg.setImageResource(R.mipmap.icon_msg_normal);
+        img_usercenter.setImageResource(R.mipmap.icon_usercenter_normal);
+
+        tv_home.setTextColor(unSelectColor);
+        tv_health.setTextColor(unSelectColor);
+        tv_msg.setTextColor(unSelectColor);
+        tv_usercenter.setTextColor(unSelectColor);
+    }
+
     public void showUserDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.mipmap.ic_launcher);
@@ -220,31 +366,7 @@ public class MainActivity extends AppCompatActivity  {
         AlertDialog dialog=builder.create();
         dialog.show();
     }
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
 
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.radio_common:
-                if (checked)
-                    mUSER = modeUSER.GENERAL;
-               // output.setText(mode);
-                    // Pirates are the best
-                    break;
-            case R.id.radio_picture:
-                if (checked)
-                    mUSER = modeUSER.PICTURE;
-                //output.setText(mode);
-                    // Ninjas rule
-                    break;
-            case R.id.radio_ppt:
-                if (checked)
-                    mUSER = modeUSER.PPT;
-                //output.setText(mode);
-                break;
-        }
-    }
 
 @Override
 public void onStart() {
@@ -373,8 +495,24 @@ public void onStart() {
                         sendData(sendToPC);// 双手模式下为发送到主机
                     }else {
                         if(dataArrive){
-                            if ((getType()*10+msgFromSlave)==34 || (getType()*10+msgFromSlave)==43){
-                                sendToPC = "05";
+//                            if ((getType()*10+msgFromSlave)==34 || (getType()*10+msgFromSlave)==43){
+//                                sendToPC = "05";
+//                            }
+                            switch (getType()*10+msgFromSlave){
+                                case 11:
+                                    sendToPC = "06";
+                                    break;
+                                case 22:
+                                    sendToPC = "05";
+                                    break;
+                                case 33://getType()=9,msgFromSlave=10
+                                    sendToPC = "07";
+                                    break;
+                                case 44:
+                                    sendToPC = "25";
+                                    break;
+                                default:
+                                    sendToPC = "00";
                             }
 //                            sendData(getType() + "+" + msgFromSlave);
                             sendData(sendToPC);
@@ -437,12 +575,23 @@ public void onStart() {
                     {
                         if(masterStop)//means that master has finish the ges
                         {
-//                            String send = getType() + "+" +msgFromSlave;
-//                            msgBuffer = send.getBytes();
-//                            mChatService.write(msgBuffer);
-                            if ((getType()*10+msgFromSlave)==34 || (getType()*10+msgFromSlave)==43){
-                                sendToPC = "05";
+                            switch (getType()*10+msgFromSlave){
+                                case 11:
+                                    sendToPC = "06";
+                                    break;
+                                case 22:
+                                    sendToPC = "05";
+                                    break;
+                                case 33://getType()=9,msgFromSlave=10
+                                    sendToPC = "07";
+                                    break;
+                                case 44:
+                                    sendToPC = "25";
+                                    break;
+                                default:
+                                    sendToPC = "00";
                             }
+
                             sendData(sendToPC);
                             msgFromSlave = 0;
                             masterStop = false;
@@ -560,15 +709,15 @@ public void onStart() {
         accelerometerSensor.sensorOff();
     }
 
-    private enum modeSC{
+    public enum modeSC{
         CLIENT,
         SERVER
     }
-    private enum modeSD{
+    public enum modeSD{
         SINGLE,
         DOUBLE
     }
-    private enum modeUSER{
+    public enum modeUSER{
         GENERAL,
         PICTURE,
         PPT
