@@ -5,7 +5,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray_line"/>
+        android:background="@color/div_white"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

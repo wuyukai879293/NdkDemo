@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:text="注意:请将主机握于右手来保证正确的手势匹配.\n蓝牙的连接顺序为:右手手机设置为主机模式→从机连接主机→主机连接PC"
-    android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_double"
+        android:text="双手模式:"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:background="@color/colorAftClick"/>
+
+    <TextView
+        android:layout_below="@+id/tv_double"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:background="@color/colorGrey"
+        android:text="\n注意:请将主机握于右手来\n保证正确的手势匹配.\n蓝牙的连接顺序为:右手手机设置为主机模式→从机连接主机→主机连接PC.\n"
+        android:textSize="20sp"/>
 </RelativeLayout>

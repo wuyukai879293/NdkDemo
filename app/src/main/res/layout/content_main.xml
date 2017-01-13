@@ -57,20 +57,21 @@
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_below="@+id/send"
+        android:background="@color/text_yellow"
         android:id="@+id/out"
         android:orientation="horizontal">
         <TextView
-            android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/outInfo"
             android:text="当前手势:"
             android:textSize="20sp"/>
         <TextView
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/output"
             android:text="结果"

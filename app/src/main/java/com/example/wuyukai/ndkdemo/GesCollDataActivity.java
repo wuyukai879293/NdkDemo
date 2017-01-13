@@ -29,7 +29,6 @@ public class GesCollDataActivity extends AppCompatActivity {
     private Button collectData3;
     private Button collectData4;
     private Button collectData5;
-    private Button saveAndBack;
     private Button select;
     private int selectItem = 0;
     private int userId;

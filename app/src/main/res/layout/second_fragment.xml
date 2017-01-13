@@ -2,12 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_single"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="单手模式:"
+        android:textSize="30sp"
+        android:background="@color/colorAftClick"
+        android:gravity="center"/>
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/radio"
+        android:background="@color/colorGrey"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/out"
+        android:layout_below="@+id/tv_single"
         android:orientation="vertical">
         <RadioButton android:id="@+id/radio_common"
             android:layout_width="wrap_content"
