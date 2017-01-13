@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NdkDemo</string>
+    <string name="app_name">GesDemo</string>
     <string name="action_settings">Settings</string>
 
     <string name="data_finish">数据采集完成</string>

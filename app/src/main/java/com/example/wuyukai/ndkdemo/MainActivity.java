@@ -35,7 +35,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wuyukai.ndkdemo.fragment.HealthFragment;
-import com.example.wuyukai.ndkdemo.fragment.HomeFragment;
 import com.example.wuyukai.ndkdemo.fragment.MsgFragment;
 import com.example.wuyukai.ndkdemo.fragment.UsercenterFragment;
 
@@ -223,17 +222,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initViews(){
-        layout_home  = (RelativeLayout) findViewById(R.id.layout_home);
+//        layout_home  = (RelativeLayout) findViewById(R.id.layout_home);
         layout_health  = (RelativeLayout) findViewById(R.id.layout_health);
         layout_msg  = (RelativeLayout) findViewById(R.id.layout_msg);
         layout_usercenter  = (RelativeLayout) findViewById(R.id.layout_usercenter);
 
-        img_home = (ImageView) findViewById(R.id.img_home);
+//        img_home = (ImageView) findViewById(R.id.img_home);
         img_health = (ImageView) findViewById(R.id.img_health);
         img_msg = (ImageView) findViewById(R.id.img_msg);
         img_usercenter = (ImageView) findViewById(R.id.img_usercenter);
 
-        tv_home = (TextView) findViewById(R.id.tv_home);
+//        tv_home = (TextView) findViewById(R.id.tv_home);
         tv_health = (TextView) findViewById(R.id.tv_health);
         tv_msg = (TextView) findViewById(R.id.tv_msg);
         tv_usercenter = (TextView) findViewById(R.id.tv_usercenter);
@@ -241,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initEvent(){
-        layout_home.setOnClickListener(this);
+//        layout_home.setOnClickListener(this);
         layout_health.setOnClickListener(this);
         layout_msg.setOnClickListener(this);
         layout_usercenter.setOnClickListener(this);
@@ -250,11 +249,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void initData(){
         selectColor = getResources().getColor(R.color.bottom_text_color_pressed);
         unSelectColor = getResources().getColor(R.color.bottom_text_color_normal);
-        fragments = new Fragment[4];
-        fragments[0] = new HomeFragment();
-        fragments[1] = new HealthFragment();
-        fragments[2] = new MsgFragment();
-        fragments[3] = new UsercenterFragment();
+        fragments = new Fragment[3];
+//        fragments[0] = new HomeFragment();
+        fragments[0] = new HealthFragment();
+        fragments[1] = new MsgFragment();
+        fragments[2] = new UsercenterFragment();
 
         getFragmentManager().beginTransaction().add(R.id.main_container,fragments[0]).commit();
     }
@@ -262,26 +261,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.layout_home:
-                index = 0;
-                setTabs(index);
-                break;
+//            case R.id.layout_home:
+//                index = 0;
+//                setTabs(index);
+//                break;
             case R.id.layout_health:
-                index = 1;
+                index = 0;
                 mSD = modeSD.SINGLE;
                 setTabs(index);
                 break;
             case R.id.layout_msg:
                 mSD = modeSD.DOUBLE;
-                index = 2;
+                index = 1;
                 setTabs(index);
                 break;
             case R.id.layout_usercenter:
-                index = 3;
+                index = 2;
                 setTabs(index);
                 break;
         }
-        if (index ==3){
+        if (index ==2){
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.hide(fragments[currentIndex]);
@@ -305,19 +304,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setTabs(int pos){
         resetColor();
         switch (pos){
+//            case 0:
+//                img_home.setImageResource(R.mipmap.icon_home_pressed);
+//                tv_home.setTextColor(selectColor);
+//                break;
             case 0:
-                img_home.setImageResource(R.mipmap.icon_home_pressed);
-                tv_home.setTextColor(selectColor);
-                break;
-            case 1:
                 img_health.setImageResource(R.mipmap.icon_health_pressed);
                 tv_health.setTextColor(selectColor);
                 break;
-            case 2:
+            case 1:
                 img_msg.setImageResource(R.mipmap.icon_msg_pressed);
                 tv_msg.setTextColor(selectColor);
                 break;
-            case 3:
+            case 2:
                 img_usercenter.setImageResource(R.mipmap.icon_usercenter_pressed);
                 tv_usercenter.setTextColor(selectColor);
                 break;
@@ -326,12 +325,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void resetColor(){
-        img_home.setImageResource(R.mipmap.icon_home_normal);
+//        img_home.setImageResource(R.mipmap.icon_home_normal);
         img_health.setImageResource(R.mipmap.icon_health_normal);
         img_msg.setImageResource(R.mipmap.icon_msg_normal);
         img_usercenter.setImageResource(R.mipmap.icon_usercenter_normal);
 
-        tv_home.setTextColor(unSelectColor);
+//        tv_home.setTextColor(unSelectColor);
         tv_health.setTextColor(unSelectColor);
         tv_msg.setTextColor(unSelectColor);
         tv_usercenter.setTextColor(unSelectColor);

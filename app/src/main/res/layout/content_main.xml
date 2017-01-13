@@ -18,13 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/pickUser"
         android:text="选择一个用户"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pickUser"
-        android:id="@+id/text"
-        android:orientation="horizontal">
-    </LinearLayout>
+
 
     <EditText
         android:layout_width="match_parent"
