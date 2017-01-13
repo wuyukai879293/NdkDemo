@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="45dp">
+    android:layout_height="40dp">
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_home"
                     android:layout_centerInParent="true"
-                    android:text="首页"
+                    android:text="用户"
                     android:textColor="@color/bottom_text_color_pressed"
                     android:textSize="12sp"/>
             </RelativeLayout>
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_health"
                     android:layout_centerInParent="true"
-                    android:text="健康"
+                    android:text="单手"
                     android:textColor="@color/bottom_text_color_normal"
                     android:textSize="12sp"/>
             </RelativeLayout>
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_msg"
                     android:layout_centerInParent="true"
-                    android:text="消息"
+                    android:text="双手"
                     android:textColor="@color/bottom_text_color_normal"
                     android:textSize="12sp"/>
             </RelativeLayout>
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/img_usercenter"
                     android:layout_centerInParent="true"
-                    android:text="我的"
+                    android:text="手势采集"
                     android:textColor="@color/bottom_text_color_normal"
                     android:textSize="12sp"/>
             </RelativeLayout>

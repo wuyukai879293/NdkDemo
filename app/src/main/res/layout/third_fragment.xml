@@ -5,5 +5,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:text="thirdFragment"/>
+    android:text="注意:请将主机握于右手来保证正确的手势匹配.\n蓝牙的连接顺序为:右手手机设置为主机模式→从机连接主机→主机连接PC"
+    android:textSize="20sp"/>
 </RelativeLayout>

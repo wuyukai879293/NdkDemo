@@ -160,9 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        accelerometerSensor.setRunInMainAc();
         //默认启动时加载用户1的数据
 //        accelerometerSensor.genTempTool(context,1);
-        startAc = (Button)findViewById(R.id.startAc);
         pickUser = (Button) findViewById(R.id.pickUser);
-        swithMode = (Switch) findViewById(R.id.modeSwitch);
         mInputEditText = (EditText) findViewById(R.id.editText1);
         mInputEditText.setGravity(Gravity.TOP);
         mInputEditText.setSelection(mInputEditText.getText().length(), mInputEditText.getText().length());
@@ -192,12 +190,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
             return;
         }
-        startAc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startAc.setText(mUSER+"");
-            }
-        });
+//        startAc.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startAc.setText(mUSER+"");
+//            }
+//        });
         pickUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -424,7 +422,9 @@ public void onStart() {
                 // 发送消息使用内容的文本编辑控件
                 //TextView view = (TextView) findViewById(R.id.edit_text_out);
 //                String message = "x:" + x + "   " + "y:" + y + "    " + "z:" + z + "    ";
-                String message = "send a message";
+
+//                String message = "send a message";
+                String message = mOutEditText.getText().toString();
                     sendData(message);
             }
         });

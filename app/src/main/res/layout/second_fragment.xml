@@ -6,8 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/radio"
+        android:layout_centerInParent="true"
         android:layout_below="@+id/out"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <RadioButton android:id="@+id/radio_common"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
